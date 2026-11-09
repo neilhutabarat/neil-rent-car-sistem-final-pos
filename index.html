@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neil Rent Car Sistem Final - Sistem Operasional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    body { background-color: #0b1120 !important; color: #f8fafc !important; }
+    .bg-white, .bg-slate-50, .bg-gray-50, .card { background-color: #1e293b !important; border: 1px solid #334155 !important; color: #f8fafc !important; }
+    .text-gray-900, .text-gray-800, .text-slate-900, .text-slate-800 { color: #f8fafc !important; }
+    .text-gray-600, .text-gray-500, .text-slate-500, .text-slate-400 { color: #cbd5e1 !important; }
+    input, select, textarea { background-color: #020617 !important; color: #ffffff !important; border: 1px solid #475569 !important; }
+    input::placeholder, textarea::placeholder { color: #64748b !important; }
+    input:focus, select:focus, textarea:focus { border-color: #f59e0b !important; outline: none !important; }
+    .bg-emerald-600, .bg-green-600, button[type="submit"] { background-color: #f59e0b !important; color: #0f172a !important; font-weight: 700 !important; }
+    .bg-purple-600, .bg-indigo-600 { background-color: #2563eb !important; }
+    table, tr, td, th { background-color: #1e293b !important; color: #f8fafc !important; border-color: #334155 !important; }
+    .bg-emerald-50, .bg-green-50, .bg-red-50 { background-color: #0b1120 !important; border: 1px solid #334155 !important; }
+  </style>
+  
+
+  <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const storageFlag = "init_v4_neil-rent-car-sistem-final";
+    if (!localStorage.getItem(storageFlag)) {
+      localStorage.clear();
+      localStorage.setItem(storageFlag, "done");
+    }
+
+    // PERBAIKAN: Hanya menargetkan elemen yang benar-benar ID coaSelect (Kasir)
+    const coaSelect = document.getElementById("coaSelect");
+    if (coaSelect) {
+      coaSelect.innerHTML = `
+        <option value="">-- Pilih Akun Transaksi Armada --</option>
+        <optgroup label="1. PENDAPATAN SEWA ARMADA">
+          <option value="[4-1001] Pendapatan Sewa Lepas Kunci">[4-1001] Pendapatan Sewa Lepas Kunci</option>
+          <option value="[4-1002] Pendapatan Sewa All-In (+ Sopir)">[4-1002] Pendapatan Sewa All-In (+ Sopir)</option>
+          <option value="[4-1003] Denda Overtime & BBM">[4-1003] Denda Overtime & BBM</option>
+        </optgroup>
+        <optgroup label="2. BEBAN OPERASIONAL ARMADA">
+          <option value="[5-1001] Belanja BBM & E-Toll Operasional">[5-1001] Belanja BBM & E-Toll Operasional</option>
+          <option value="[5-1002] Beban Cuci & Salon Mobil">[5-1002] Beban Cuci & Salon Mobil</option>
+          <option value="[5-1003] Servis Mesin, Ban & Ganti Oli">[5-1003] Servis Mesin, Ban & Ganti Oli</option>
+          <option value="[5-1004] Gaji Sopir & Uang Jalan">[5-1004] Gaji Sopir & Uang Jalan</option>
+        </optgroup>
+      `;
+    }
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while (node = walker.nextNode()) {
+      node.nodeValue = node.nodeValue
+        .replace(/Ony Coffee Modern POS & Finance/g, "Neil Rent Car Sistem Final")
+        .replace(/Penjualan Aneka Kopi/g, "Pendapatan Sewa Armada")
+        .replace(/Bahan Baku Kopi & Susu/g, "BBM, E-Toll & Servis")
+        .replace(/Barista & Karyawan Kafe/g, "Sopir & Kru Armada")
+        .replace(/Stok Bahan Baku \(HPP\)/g, "Daftar Armada Unit")
+        .replace(/Pemakaian Bahan Baku/g, "Operasional Armada");
+    }
+  });
+  </script>
+  
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+            <div class="w-16 h-16 bg-gradient-to-tr from-emerald-600 to-teal-500 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg shadow-emerald-600/30 mb-3">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
+            </div>
+            <h1 class="text-2xl font-black tracking-tight text-white">Neil Rent Car Sistem Final</h1>
+            <p class="text-xs text-slate-400">Portal Akses Multi-Device (PC Kasir & Mobile HP)</p>
+        </div>
+
+        <form onsubmit="doLogin(event)" class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-slate-300 block mb-1.5">Pilih Jabatan / Role</label>
+                <select id="login-role" class="w-full bg-slate-700 border border-slate-600 rounded-xl p-3 text-sm text-white font-medium outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="staff">1. Admin / Kasir (Dioptimalkan untuk PC Kasir)</option>
+                    <option value="manager">2. Manager / Supervisor (Mobile & Kelola COA)</option>
+                    <option value="owner">3. Owner (Akses Pantau Laporan Lengkap - Read Only)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="text-xs font-bold text-slate-300 block mb-1.5">PIN Akses Keamanan</label>
+                <input type="password" id="login-pin" maxlength="6" placeholder="Masukkan PIN" class="w-full bg-slate-700 border border-slate-600 rounded-xl p-3.5 text-base text-center tracking-widest text-white font-black outline-none focus:ring-2 focus:ring-emerald-500" required>
+            </div>
+
+            <div class="bg-slate-700/50 p-3 rounded-xl border border-slate-600/60 text-xs text-slate-300 space-y-1">
+                <p class="font-bold text-emerald-400">Petunjuk Akses Default:</p>
+                <div class="grid grid-cols-3 gap-1 text-[11px] font-mono text-center pt-1">
+                    <div class="bg-slate-800 p-1.5 rounded">Kasir: <span class="font-bold text-white">1111</span></div>
+                    <div class="bg-slate-800 p-1.5 rounded">Mgr: <span class="font-bold text-white">5678</span></div>
+                    <div class="bg-slate-800 p-1.5 rounded">Owner: <span class="font-bold text-white">1234</span></div>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2">
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                <span>Masuk ke Laman Khusus</span>
+            </button>
+        </form>
+    </div>
+
+    <script src="js/config.js?v=18.0"></script>
+    <script src="js/core.js?v=18.0"></script>
+    <script>
+        lucide.createIcons();
+        function doLogin(e) {
+            e.preventDefault();
+            const role = document.getElementById('login-role').value;
+            const pin = document.getElementById('login-pin').value.trim();
+
+            const target = ROLES[role];
+            if (target && target.pin === pin) {
+                localStorage.setItem('fm_session_user_v13', JSON.stringify({
+                    role: role,
+                    title: target.title
+                }));
+                window.location.href = target.redirect;
+            } else {
+                alert("PIN salah! Silakan periksa kembali.");
+            }
+        }
+    </script>
+</body>
+</html>
